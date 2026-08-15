@@ -1,0 +1,3350 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+<title>Burger Rush 🍔</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Tahoma,Arial,sans-serif;
+    background:#130b08;
+    color:white;
+    min-height:100vh;
+}
+
+button{
+    font:inherit;
+    border:0;
+    cursor:pointer;
+}
+
+.screen{
+    display:none;
+    min-height:100vh;
+}
+
+.active{
+    display:flex;
+}
+
+/* ================= HOME ================= */
+
+.home{
+    align-items:center;
+    justify-content:center;
+
+    background:
+    radial-gradient(
+        circle at 50% 20%,
+        #673719,
+        #170b07 65%
+    );
+}
+
+.card{
+    background:#21130fee;
+    border:1px solid #ffffff18;
+    border-radius:28px;
+    padding:28px;
+
+    box-shadow:
+    0 20px 70px #0008;
+}
+
+.home .card{
+    text-align:center;
+    width:min(650px,92%);
+}
+
+.logo{
+    font-size:100px;
+
+    filter:
+    drop-shadow(
+        0 15px 20px #000
+    );
+
+    animation:
+    floating 2s infinite ease-in-out;
+}
+
+h1{
+    font-size:
+    clamp(34px,7vw,60px);
+
+    color:#ffc14a;
+
+    margin:5px 0;
+}
+
+.sub{
+    color:#ddd;
+    margin:10px 0 25px;
+}
+
+.btn{
+    background:
+    linear-gradient(
+        135deg,
+        #ffbd3b,
+        #f36b20
+    );
+
+    color:white;
+
+    border-radius:16px;
+
+    padding:14px 24px;
+
+    font-weight:bold;
+
+    box-shadow:
+    0 8px 22px #ff7b0038;
+
+    margin:5px;
+
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:
+    translateY(-3px)
+    scale(1.02);
+}
+
+.small{
+    font-size:13px;
+    color:#aaa;
+}
+
+/* ================= TOP ================= */
+
+.game{
+    flex-direction:column;
+}
+
+.top{
+    display:flex;
+
+    gap:8px;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:10px 14px;
+
+    background:#190d09ee;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:20;
+
+    flex-wrap:wrap;
+}
+
+.stat{
+    background:#ffffff0d;
+
+    border-radius:13px;
+
+    padding:8px 12px;
+
+    text-align:center;
+}
+
+.stat b{
+    color:#ffc14a;
+}
+
+.back{
+    background:#ffffff12;
+
+    color:#fff;
+
+    padding:10px 14px;
+
+    border-radius:12px;
+}
+
+/* ================= GAME ================= */
+
+.wrap{
+    width:min(1250px,95%);
+
+    margin:auto;
+
+    padding:16px 0 35px;
+}
+
+.layout{
+    display:grid;
+
+    grid-template-columns:
+    330px 1fr;
+
+    gap:16px;
+}
+
+.panel{
+    background:#21130fe8;
+
+    border:1px solid #ffffff12;
+
+    border-radius:22px;
+
+    padding:16px;
+
+    box-shadow:
+    0 15px 40px #0005;
+}
+
+.panel h2,
+.panel h3{
+    margin:0 0 12px;
+
+    color:#ffc14a;
+}
+
+.orderbox{
+    position:sticky;
+    top:75px;
+}
+
+.customer{
+    font-size:58px;
+    text-align:center;
+
+    animation:
+    customerMove 3s infinite;
+}
+
+.bubble{
+    background:white;
+
+    color:#24130d;
+
+    border-radius:18px;
+
+    padding:12px;
+
+    position:relative;
+
+    margin-bottom:12px;
+}
+
+.bubble:after{
+    content:"";
+
+    position:absolute;
+
+    bottom:-10px;
+
+    right:35px;
+
+    border:10px solid transparent;
+
+    border-top-color:white;
+
+    border-bottom:0;
+}
+
+.order-items{
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:6px;
+}
+
+.tag{
+    background:#ffffff12;
+
+    padding:7px 9px;
+
+    border-radius:10px;
+}
+
+.meter{
+    height:12px;
+
+    background:#ffffff12;
+
+    border-radius:99px;
+
+    overflow:hidden;
+
+    margin:8px 0;
+}
+
+.meter>div{
+    height:100%;
+
+    width:100%;
+
+    background:#4dde76;
+
+    transition:.2s;
+}
+
+/* ================= KITCHEN ================= */
+
+.kitchen{
+    display:grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap:16px;
+}
+
+.station{
+    min-height:270px;
+}
+
+/* ================= GRILL ================= */
+
+.grill{
+    height:160px;
+
+    border-radius:18px;
+
+    background:
+    repeating-linear-gradient(
+        0deg,
+        #151515 0 11px,
+        #333 12px 17px
+    );
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.flame{
+    position:absolute;
+
+    bottom:5px;
+
+    font-size:42px;
+
+    animation:
+    flame .35s infinite alternate;
+}
+
+.patty{
+    width:125px;
+
+    height:65px;
+
+    border-radius:50%;
+
+    background:
+    linear-gradient(
+        #7d351e,
+        #42160d
+    );
+
+    box-shadow:
+    inset 0 -9px #2c0e08;
+
+    display:none;
+
+    z-index:2;
+}
+
+.patty.show{
+    display:block;
+}
+
+.patty.raw{
+    background:#9b4728;
+}
+
+.patty.good{
+    background:#562014;
+}
+
+.patty.burn{
+    background:#111;
+}
+
+.controls{
+    display:flex;
+
+    gap:6px;
+
+    margin-top:8px;
+}
+
+.controls button,
+.ingredient{
+    flex:1;
+
+    background:#ffffff10;
+
+    color:#fff;
+
+    border-radius:12px;
+
+    padding:10px;
+
+    transition:.15s;
+}
+
+.controls button:hover,
+.ingredient:hover{
+    background:#ffffff20;
+
+    transform:
+    translateY(-2px);
+}
+
+.heat{
+    height:9px;
+
+    background:#ffffff12;
+
+    border-radius:20px;
+
+    margin-top:8px;
+
+    overflow:hidden;
+}
+
+.heat div{
+    height:100%;
+
+    width:0;
+
+    background:
+    linear-gradient(
+        90deg,
+        #4de477,
+        #ffd447,
+        #ff4b30
+    );
+
+    transition:.15s;
+}
+
+/* ================= INGREDIENTS ================= */
+
+.ingredients{
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:8px;
+}
+
+.ingredient{
+    min-height:75px;
+}
+
+.ingredient span{
+    display:block;
+
+    font-size:28px;
+
+    margin-bottom:4px;
+}
+
+.ingredient:active{
+    transform:scale(.94);
+}
+
+/* ================= BURGER ================= */
+
+.build{
+    min-height:260px;
+
+    background:#160c08;
+
+    border-radius:18px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:flex-end;
+
+    align-items:center;
+
+    padding:20px;
+
+    overflow:hidden;
+}
+
+.layer{
+    width:min(280px,80%);
+
+    height:28px;
+
+    margin-top:-4px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:20px;
+
+    animation:
+    drop .25s;
+}
+
+.bun{
+    background:
+    linear-gradient(
+        #f0b24e,
+        #ad6323
+    );
+
+    height:45px;
+
+    border-radius:
+    90px 90px
+    12px 12px;
+}
+
+.meat{
+    background:
+    linear-gradient(
+        #682a18,
+        #32100a
+    );
+
+    border-radius:12px;
+}
+
+.cheese{
+    background:#ffc928;
+
+    height:17px;
+}
+
+.lettuce{
+    background:#55a83d;
+
+    border-radius:20px;
+}
+
+.tomato{
+    background:#d9382c;
+
+    border-radius:15px;
+}
+
+.onion{
+    background:#a85aa5;
+
+    border-radius:20px;
+}
+
+.sauce{
+    background:#b53b19;
+
+    height:10px;
+
+    border-radius:20px;
+}
+
+.actions{
+    display:flex;
+
+    gap:8px;
+
+    margin-top:10px;
+}
+
+.wide{
+    width:100%;
+}
+
+/* ================= FRIES ================= */
+
+.fries{
+    height:160px;
+
+    background:#b9471f;
+
+    border-radius:
+    12px 12px
+    25px 25px;
+
+    display:flex;
+
+    align-items:flex-start;
+
+    justify-content:center;
+
+    padding-top:12px;
+}
+
+.fries:before{
+    content:"🍟🍟🍟🍟🍟";
+
+    font-size:35px;
+
+    letter-spacing:-8px;
+}
+
+.drink{
+    height:160px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:100px;
+}
+
+/* ================= RESULT ================= */
+
+.result{
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+    radial-gradient(
+        circle,
+        #3d2112,
+        #100705
+    );
+}
+
+.result .card{
+    text-align:center;
+
+    width:min(560px,92%);
+}
+
+.stars{
+    font-size:38px;
+
+    margin:12px;
+}
+
+.big{
+    font-size:70px;
+}
+
+/* ================= SHOP ================= */
+
+.shop{
+    width:min(850px,92%);
+
+    margin:auto;
+
+    padding:30px 0;
+}
+
+.upgrade{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:15px;
+
+    margin:10px 0;
+
+    background:#ffffff0b;
+
+    border-radius:15px;
+}
+
+/* ================= SOUND PANEL ================= */
+
+.sound-panel{
+    position:fixed;
+
+    left:15px;
+
+    bottom:15px;
+
+    z-index:999;
+
+    background:#21130fee;
+
+    border:1px solid #ffffff20;
+
+    border-radius:18px;
+
+    padding:10px;
+
+    box-shadow:
+    0 10px 30px #0008;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+}
+
+.sound-button{
+    background:#ffffff12;
+
+    color:white;
+
+    border:0;
+
+    border-radius:12px;
+
+    padding:9px 12px;
+
+    cursor:pointer;
+
+    font-size:20px;
+}
+
+.volume{
+    width:90px;
+}
+
+/* ================= ANIMATIONS ================= */
+
+@keyframes flame{
+
+    from{
+        transform:
+        scale(.9)
+        rotate(-3deg);
+    }
+
+    to{
+        transform:
+        scale(1.1)
+        rotate(3deg);
+    }
+}
+
+@keyframes drop{
+
+    from{
+        transform:
+        translateY(-30px);
+
+        opacity:0;
+    }
+
+    to{
+        transform:none;
+
+        opacity:1;
+    }
+}
+
+@keyframes floating{
+
+    0%,100%{
+        transform:
+        translateY(0);
+    }
+
+    50%{
+        transform:
+        translateY(-10px);
+    }
+}
+
+@keyframes customerMove{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.04);
+    }
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:850px){
+
+    .layout,
+    .kitchen{
+        grid-template-columns:1fr;
+    }
+
+    .orderbox{
+        position:static;
+    }
+
+    .top{
+        justify-content:center;
+    }
+
+    .ingredients{
+        grid-template-columns:
+        repeat(4,1fr);
+    }
+
+}
+
+@media(max-width:520px){
+
+    .ingredients{
+        grid-template-columns:
+        repeat(3,1fr);
+    }
+
+    .wrap{
+        width:96%;
+    }
+
+    .panel{
+        padding:12px;
+    }
+
+    .sound-panel{
+        left:8px;
+        bottom:8px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     HOME
+===================================================== -->
+
+<section
+id="home"
+class="screen active home"
+>
+
+<div class="card">
+
+<div class="logo">
+🍔
+</div>
+
+<h1>
+BURGER RUSH
+</h1>
+
+<p class="sub">
+مطعمك الصغير يحتاج شيف محترف!
+<br>
+حضّري الطلبات بسرعة وارضي الزبائن.
+</p>
+
+<button
+class="btn"
+onclick="newGame()"
+>
+🍔 ابدأ اللعب
+</button>
+
+<button
+class="btn"
+onclick="openShop()"
+>
+🛒 تطوير المطعم
+</button>
+
+<p class="small">
+🎵 الصوت يبدأ عند بدء اللعبة
+</p>
+
+<p class="small">
+الإصدار 3.0
+</p>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     GAME
+===================================================== -->
+
+<section
+id="game"
+class="screen game"
+>
+
+<div class="top">
+
+<div class="stat">
+⭐
+<b id="score">
+0
+</b>
+<br>
+نقاط
+</div>
+
+<div class="stat">
+💰
+<b id="money">
+100
+</b>
+<br>
+ريال
+</div>
+
+<div class="stat">
+🏆
+<b id="level">
+1
+</b>
+<br>
+مستوى
+</div>
+
+<div class="stat">
+🔥
+<b id="combo">
+0
+</b>
+<br>
+كومبو
+</div>
+
+<button
+class="back"
+onclick="goHome()"
+>
+🏠
+</button>
+
+</div>
+
+
+<div class="wrap">
+
+<div class="layout">
+
+
+<!-- ================= ORDER ================= -->
+
+<aside
+class="panel orderbox"
+>
+
+<div
+class="customer"
+id="customer"
+>
+👨🏻‍🦱
+</div>
+
+<div
+class="bubble"
+id="speech"
+>
+أبي وجبة برجر لذيذة!
+</div>
+
+<h3>
+🧾 الطلب
+</h3>
+
+<div
+class="order-items"
+id="orderItems"
+>
+</div>
+
+<p>
+❤️ رضا الزبون:
+<b id="satisfaction">
+100
+</b>%
+</p>
+
+<div class="meter">
+<div id="satisfactionBar"></div>
+</div>
+
+<p>
+⏱️ الوقت:
+<b id="time">
+60
+</b>
+ثانية
+</p>
+
+<div class="meter">
+<div id="timeBar"></div>
+</div>
+
+<p class="small">
+حضّري الطلب بسرعة قبل ما يزعل الزبون!
+</p>
+
+</aside>
+
+
+<!-- ================= KITCHEN ================= -->
+
+<main class="kitchen">
+
+
+<!-- GRILL -->
+
+<section
+class="panel station"
+>
+
+<h2>
+🔥 الشواية
+</h2>
+
+<div class="grill">
+
+<div class="flame">
+🔥
+</div>
+
+<div
+id="patty"
+class="patty"
+>
+</div>
+
+</div>
+
+<div class="heat">
+<div id="heat"></div>
+</div>
+
+<div class="controls">
+
+<button onclick="putPatty()">
+🥩 لحم
+</button>
+
+<button onclick="flipPatty()">
+🔄 قلب
+</button>
+
+<button onclick="removePatty()">
+🍽️ شيل
+</button>
+
+</div>
+
+<p
+id="cookText"
+class="small"
+>
+حطي اللحم على الشواية.
+</p>
+
+</section>
+
+
+<!-- INGREDIENTS -->
+
+<section
+class="panel station"
+>
+
+<h2>
+🥬 المكونات
+</h2>
+
+<div class="ingredients">
+
+<button
+class="ingredient"
+onclick="add('bun')"
+>
+<span>🍞</span>
+خبز
+</button>
+
+<button
+class="ingredient"
+onclick="add('meat')"
+>
+<span>🥩</span>
+لحم
+</button>
+
+<button
+class="ingredient"
+onclick="add('cheese')"
+>
+<span>🧀</span>
+جبن
+</button>
+
+<button
+class="ingredient"
+onclick="add('lettuce')"
+>
+<span>🥬</span>
+خس
+</button>
+
+<button
+class="ingredient"
+onclick="add('tomato')"
+>
+<span>🍅</span>
+طماطم
+</button>
+
+<button
+class="ingredient"
+onclick="add('onion')"
+>
+<span>🧅</span>
+بصل
+</button>
+
+<button
+class="ingredient"
+onclick="add('sauce')"
+>
+<span>🥫</span>
+صوص
+</button>
+
+<button
+class="ingredient"
+onclick="add('fries')"
+>
+<span>🍟</span>
+بطاطس
+</button>
+
+<button
+class="ingredient"
+onclick="add('drink')"
+>
+<span>🥤</span>
+مشروب
+</button>
+
+</div>
+
+</section>
+
+
+<!-- BURGER -->
+
+<section class="panel">
+
+<h2>
+🍔 تجميع البرجر
+</h2>
+
+<div
+id="burger"
+class="build"
+>
+
+<span class="small">
+ضعي الخبز والمكونات هنا 👇
+</span>
+
+</div>
+
+<div class="actions">
+
+<button
+class="btn wide"
+onclick="serve()"
+>
+✨ تقديم الطلب
+</button>
+
+<button
+class="back"
+onclick="clearBurger()"
+>
+🗑️
+</button>
+
+</div>
+
+<p
+id="buildText"
+class="small"
+>
+ابدئي بالخبز ثم رتبي المكونات.
+</p>
+
+</section>
+
+
+<!-- MEAL -->
+
+<section class="panel">
+
+<h2>
+🍟 تجهيز الوجبة
+</h2>
+
+<div
+style="
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+"
+>
+
+<div class="fries">
+</div>
+
+<div class="drink">
+🥤
+</div>
+
+</div>
+
+<p class="small">
+أضيفي البطاطس والمشروب حسب طلب الزبون.
+</p>
+
+</section>
+
+
+</main>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     RESULT
+===================================================== -->
+
+<section
+id="result"
+class="screen result"
+>
+
+<div class="card">
+
+<div
+class="big"
+id="resultEmoji"
+>
+🍔
+</div>
+
+<h1 id="resultTitle">
+طلب ممتاز!
+</h1>
+
+<div
+class="stars"
+id="stars"
+>
+⭐⭐⭐⭐⭐
+</div>
+
+<h2 id="resultPoints">
++100 نقطة
+</h2>
+
+<p id="resultText">
+</p>
+
+<button
+class="btn"
+onclick="nextOrder()"
+>
+🍔 الطلب التالي
+</button>
+
+<button
+class="btn"
+onclick="goHome()"
+>
+🏠 الرئيسية
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     SHOP
+===================================================== -->
+
+<section
+id="shop"
+class="screen"
+>
+
+<div class="shop">
+
+<div class="card">
+
+<h1>
+🛒 تطوير المطعم
+</h1>
+
+<p class="sub">
+فلوسك:
+💰
+<b id="shopMoney">
+100
+</b>
+</p>
+
+
+<div class="upgrade">
+
+<div>
+
+<h3>
+🔥 شواية سريعة
+</h3>
+
+<p class="small">
+تزيد سرعة استواء اللحم.
+</p>
+
+</div>
+
+<button
+class="btn"
+onclick="buy('grill',100)"
+>
+💰 100
+</button>
+
+</div>
+
+
+<div class="upgrade">
+
+<div>
+
+<h3>
+⏱️ ساعة أسرع
+</h3>
+
+<p class="small">
+تزيد وقت كل طلب.
+</p>
+
+</div>
+
+<button
+class="btn"
+onclick="buy('time',150)"
+>
+💰 150
+</button>
+
+</div>
+
+
+<div class="upgrade">
+
+<div>
+
+<h3>
+👨‍🍳 خبرة الشيف
+</h3>
+
+<p class="small">
+تزيد النقاط والبقشيش.
+</p>
+
+</div>
+
+<button
+class="btn"
+onclick="buy('chef',250)"
+>
+💰 250
+</button>
+
+</div>
+
+
+<div class="upgrade">
+
+<div>
+
+<h3>
+🍔 وصفات خاصة
+</h3>
+
+<p class="small">
+تفتح طلبات أصعب.
+</p>
+
+</div>
+
+<button
+class="btn"
+onclick="buy('recipe',300)"
+>
+💰 300
+</button>
+
+</div>
+
+
+<button
+class="btn"
+onclick="goHome()"
+>
+🏠 رجوع
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     SOUND PANEL
+===================================================== -->
+
+<div class="sound-panel">
+
+<button
+id="soundBtn"
+class="sound-button"
+onclick="toggleSound()"
+>
+🔊
+</button>
+
+<input
+id="volume"
+class="volume"
+type="range"
+min="0"
+max="1"
+step="0.05"
+value="0.6"
+oninput="setVolume(this.value)"
+>
+
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =====================================================
+   DATA
+===================================================== */
+
+const E = {
+
+bun:"🍞",
+meat:"🥩",
+cheese:"🧀",
+lettuce:"🥬",
+tomato:"🍅",
+onion:"🧅",
+sauce:"🥫",
+fries:"🍟",
+drink:"🥤"
+
+};
+
+
+const N = {
+
+bun:"خبز",
+meat:"لحم",
+cheese:"جبن",
+lettuce:"خس",
+tomato:"طماطم",
+onion:"بصل",
+sauce:"صوص",
+fries:"بطاطس",
+drink:"مشروب"
+
+};
+
+
+const customers = [
+
+"👨🏻‍🦱",
+"👩🏻",
+"👨🏽",
+"👩🏽‍🦱",
+"👨🏻",
+"👩🏼",
+"👨🏿",
+"👩🏾"
+
+];
+
+
+const orders = [
+
+[
+"bun",
+"meat",
+"cheese"
+],
+
+[
+"bun",
+"meat",
+"cheese",
+"lettuce",
+"tomato"
+],
+
+[
+"bun",
+"meat",
+"cheese",
+"lettuce",
+"tomato",
+"sauce",
+"fries",
+"drink"
+],
+
+[
+"bun",
+"meat",
+"cheese",
+"onion",
+"sauce",
+"fries",
+"drink"
+],
+
+[
+"bun",
+"meat",
+"cheese",
+"lettuce",
+"tomato",
+"onion",
+"sauce",
+"fries",
+"drink"
+]
+
+];
+
+
+/* =====================================================
+   GAME VARIABLES
+===================================================== */
+
+let score =
+Number(
+localStorage.getItem("score")
+) || 0;
+
+
+let money =
+Number(
+localStorage.getItem("money")
+) || 100;
+
+
+let level =
+Number(
+localStorage.getItem("level")
+) || 1;
+
+
+let combo = 0;
+
+
+let upgrades =
+JSON.parse(
+localStorage.getItem("upgrades") ||
+'{"grill":0,"time":0,"chef":0,"recipe":0}'
+);
+
+
+let order = [];
+
+let built = [];
+
+let timeLeft = 60;
+
+let satisfaction = 100;
+
+let pattyOn = false;
+
+let cook = 0;
+
+let cooking = false;
+
+let timer = null;
+
+let cookTimer = null;
+
+
+/* =====================================================
+   AUDIO SYSTEM
+===================================================== */
+
+let audioContext = null;
+
+let masterVolume =
+Number(
+localStorage.getItem("volume")
+) || 0.6;
+
+
+let soundEnabled =
+localStorage.getItem("soundEnabled")
+!== "false";
+
+
+let musicTimer = null;
+
+
+/* إنشاء الصوت */
+
+function initAudio(){
+
+    if(!audioContext){
+
+        audioContext =
+        new(
+            window.AudioContext ||
+            window.webkitAudioContext
+        )();
+
+    }
+
+    if(
+        audioContext.state ===
+        "suspended"
+    ){
+
+        audioContext.resume();
+
+    }
+
+}
+
+
+/* نغمة */
+
+function tone(
+    frequency,
+    duration=0.12,
+    type="sine",
+    volume=0.2
+){
+
+    if(!soundEnabled){
+
+        return;
+
+    }
+
+    initAudio();
+
+    const oscillator =
+    audioContext.createOscillator();
+
+    const gain =
+    audioContext.createGain();
+
+
+    oscillator.type =
+    type;
+
+
+    oscillator.frequency.value =
+    frequency;
+
+
+    gain.gain.setValueAtTime(
+        0,
+        audioContext.currentTime
+    );
+
+
+    gain.gain.linearRampToValueAtTime(
+        volume * masterVolume,
+        audioContext.currentTime + 0.01
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime +
+        duration
+    );
+
+
+    oscillator.connect(gain);
+
+    gain.connect(
+        audioContext.destination
+    );
+
+
+    oscillator.start();
+
+
+    oscillator.stop(
+        audioContext.currentTime +
+        duration
+    );
+
+}
+
+
+/* ================= CLICK ================= */
+
+function soundClick(){
+
+    tone(
+        520,
+        0.06,
+        "square",
+        0.08
+    );
+
+}
+
+
+/* ================= MEAT ================= */
+
+function soundMeat(){
+
+    tone(
+        130,
+        0.12,
+        "sawtooth",
+        0.18
+    );
+
+
+    setTimeout(
+        function(){
+
+            tone(
+                80,
+                0.1,
+                "sawtooth",
+                0.12
+            );
+
+        },
+        70
+    );
+
+}
+
+
+/* ================= GRILL ================= */
+
+function soundGrill(){
+
+    if(!soundEnabled){
+
+        return;
+
+    }
+
+    initAudio();
+
+
+    const bufferSize =
+    audioContext.sampleRate *
+    0.25;
+
+
+    const buffer =
+    audioContext.createBuffer(
+        1,
+        bufferSize,
+        audioContext.sampleRate
+    );
+
+
+    const data =
+    buffer.getChannelData(0);
+
+
+    for(
+        let i=0;
+        i<bufferSize;
+        i++
+    ){
+
+        data[i] =
+        (
+            Math.random()*2-1
+        )
+        *
+        Math.exp(
+            -i/3500
+        );
+
+    }
+
+
+    const source =
+    audioContext.createBufferSource();
+
+
+    const gain =
+    audioContext.createGain();
+
+
+    source.buffer =
+    buffer;
+
+
+    gain.gain.value =
+    0.18 *
+    masterVolume;
+
+
+    source.connect(gain);
+
+    gain.connect(
+        audioContext.destination
+    );
+
+
+    source.start();
+
+}
+
+
+/* ================= FLIP ================= */
+
+function soundFlip(){
+
+    tone(
+        250,
+        0.08,
+        "square",
+        0.12
+    );
+
+
+    setTimeout(
+        function(){
+
+            tone(
+                420,
+                0.12,
+                "square",
+                0.13
+            );
+
+        },
+        80
+    );
+
+}
+
+
+/* ================= REMOVE ================= */
+
+function soundRemove(){
+
+    tone(
+        300,
+        0.08,
+        "triangle",
+        0.1
+    );
+
+}
+
+
+/* ================= INGREDIENT ================= */
+
+function soundIngredient(){
+
+    tone(
+        700,
+        0.06,
+        "sine",
+        0.1
+    );
+
+
+    setTimeout(
+        function(){
+
+            tone(
+                900,
+                0.08,
+                "sine",
+                0.08
+            );
+
+        },
+        50
+    );
+
+}
+
+
+/* ================= SUCCESS ================= */
+
+function soundSuccess(){
+
+    tone(
+        523,
+        0.12,
+        "sine",
+        0.15
+    );
+
+
+    setTimeout(
+        function(){
+
+            tone(
+                659,
+                0.12,
+                "sine",
+                0.15
+            );
+
+        },
+        120
+    );
+
+
+    setTimeout(
+        function(){
+
+            tone(
+                784,
+                0.2,
+                "sine",
+                0.18
+            );
+
+        },
+        240
+    );
+
+}
+
+
+/* ================= PERFECT ================= */
+
+function soundPerfect(){
+
+    const notes = [
+
+        523,
+        659,
+        784,
+        1046
+
+    ];
+
+
+    notes.forEach(
+        function(note,index){
+
+            setTimeout(
+                function(){
+
+                    tone(
+                        note,
+                        0.18,
+                        "sine",
+                        0.16
+                    );
+
+                },
+                index * 120
+            );
+
+        }
+    );
+
+}
+
+
+/* ================= FAIL ================= */
+
+function soundFail(){
+
+    tone(
+        330,
+        0.2,
+        "sawtooth",
+        0.14
+    );
+
+
+    setTimeout(
+        function(){
+
+            tone(
+                220,
+                0.3,
+                "sawtooth",
+                0.14
+            );
+
+        },
+        180
+    );
+
+}
+
+
+/* ================= BUY ================= */
+
+function soundBuy(){
+
+    tone(
+        500,
+        0.08,
+        "sine",
+        0.12
+    );
+
+
+    setTimeout(
+        function(){
+
+            tone(
+                700,
+                0.08,
+                "sine",
+                0.12
+            );
+
+        },
+        90
+    );
+
+
+    setTimeout(
+        function(){
+
+            tone(
+                1000,
+                0.15,
+                "sine",
+                0.15
+            );
+
+        },
+        180
+    );
+
+}
+
+
+/* ================= WARNING ================= */
+
+function soundWarning(){
+
+    tone(
+        850,
+        0.08,
+        "square",
+        0.1
+    );
+
+
+    setTimeout(
+        function(){
+
+            tone(
+                850,
+                0.08,
+                "square",
+                0.1
+            );
+
+        },
+        150
+    );
+
+}
+
+
+/* =====================================================
+   BACKGROUND MUSIC
+===================================================== */
+
+function startMusic(){
+
+    if(!soundEnabled){
+
+        return;
+
+    }
+
+
+    if(musicTimer){
+
+        return;
+
+    }
+
+
+    initAudio();
+
+
+    const melody = [
+
+        261.63,
+        329.63,
+        392.00,
+        329.63,
+
+        293.66,
+        349.23,
+        440.00,
+        349.23
+
+    ];
+
+
+    let index = 0;
+
+
+    musicTimer =
+    setInterval(
+        function(){
+
+            if(!soundEnabled){
+
+                return;
+
+            }
+
+
+            tone(
+                melody[index],
+                0.35,
+                "sine",
+                0.025
+            );
+
+
+            index++;
+
+
+            if(
+                index >=
+                melody.length
+            ){
+
+                index = 0;
+
+            }
+
+        },
+        450
+    );
+
+}
+
+
+function stopMusic(){
+
+    if(musicTimer){
+
+        clearInterval(
+            musicTimer
+        );
+
+        musicTimer = null;
+
+    }
+
+}
+
+
+/* =====================================================
+   SOUND SETTINGS
+===================================================== */
+
+function toggleSound(){
+
+    soundEnabled =
+    !soundEnabled;
+
+
+    localStorage.setItem(
+        "soundEnabled",
+        soundEnabled
+    );
+
+
+    $("soundBtn").textContent =
+    soundEnabled
+    ?
+    "🔊"
+    :
+    "🔇";
+
+
+    if(soundEnabled){
+
+        initAudio();
+
+        startMusic();
+
+        soundClick();
+
+    }else{
+
+        stopMusic();
+
+    }
+
+}
+
+
+function setVolume(value){
+
+    masterVolume =
+    Number(value);
+
+
+    localStorage.setItem(
+        "volume",
+        masterVolume
+    );
+
+}
+
+
+/* =====================================================
+   SHORTCUT
+===================================================== */
+
+function $(id){
+
+    return document.getElementById(id);
+
+}
+
+
+/* =====================================================
+   SHOW SCREEN
+===================================================== */
+
+function show(id){
+
+    document
+    .querySelectorAll(".screen")
+    .forEach(
+        function(x){
+
+            x.classList.remove(
+                "active"
+            );
+
+        }
+    );
+
+
+    $(id).classList.add(
+        "active"
+    );
+
+}
+
+
+/* =====================================================
+   SAVE
+===================================================== */
+
+function save(){
+
+    localStorage.setItem(
+        "score",
+        score
+    );
+
+
+    localStorage.setItem(
+        "money",
+        money
+    );
+
+
+    localStorage.setItem(
+        "level",
+        level
+    );
+
+
+    localStorage.setItem(
+        "upgrades",
+        JSON.stringify(
+            upgrades
+        )
+    );
+
+
+    updateStats();
+
+}
+
+
+/* =====================================================
+   STATS
+===================================================== */
+
+function updateStats(){
+
+    $("score").textContent =
+    score;
+
+
+    $("money").textContent =
+    money;
+
+
+    $("level").textContent =
+    level;
+
+
+    $("combo").textContent =
+    combo;
+
+
+    $("shopMoney").textContent =
+    money;
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+function newGame(){
+
+    initAudio();
+
+    startMusic();
+
+    soundClick();
+
+    show("game");
+
+    makeOrder();
+
+}
+
+
+/* =====================================================
+   HOME
+===================================================== */
+
+function goHome(){
+
+    clearInterval(timer);
+
+    clearInterval(cookTimer);
+
+    stopMusic();
+
+    soundClick();
+
+    save();
+
+    show("home");
+
+}
+
+
+/* =====================================================
+   SHOP
+===================================================== */
+
+function openShop(){
+
+    updateStats();
+
+    show("shop");
+
+}
+
+
+/* =====================================================
+   MAKE ORDER
+===================================================== */
+
+function makeOrder(){
+
+    clearInterval(timer);
+
+    clearBurger();
+
+
+    pattyOn = false;
+
+    cook = 0;
+
+    cooking = false;
+
+
+    let max =
+    Math.min(
+        orders.length,
+        2 +
+        Math.floor(level/2) +
+        upgrades.recipe
+    );
+
+
+    order =
+    orders[
+        Math.floor(
+            Math.random()*max
+        )
+    ].slice();
+
+
+    $("customer").textContent =
+    customers[
+        Math.floor(
+            Math.random() *
+            customers.length
+        )
+    ];
+
+
+    $("orderItems").innerHTML =
+    order
+    .map(
+        function(x){
+
+            return `
+            <span class="tag">
+            ${E[x]} ${N[x]}
+            </span>
+            `;
+
+        }
+    )
+    .join("");
+
+
+    timeLeft =
+    60 +
+    upgrades.time*8 +
+    Math.min(
+        level*2,
+        20
+    );
+
+
+    satisfaction = 100;
+
+
+    $("time").textContent =
+    timeLeft;
+
+
+    $("satisfaction").textContent =
+    100;
+
+
+    $("satisfactionBar").style.width =
+    "100%";
+
+
+    $("timeBar").style.width =
+    "100%";
+
+
+    $("speech").textContent =
+    "أبي " +
+    order
+    .map(
+        function(x){
+
+            return N[x];
+
+        }
+    )
+    .join(" + ") +
+    " 😋";
+
+
+    timer =
+    setInterval(
+        function(){
+
+            timeLeft--;
+
+
+            if(
+                timeLeft <= 10 &&
+                timeLeft > 0
+            ){
+
+                soundWarning();
+
+            }
+
+
+            if(
+                timeLeft % 3 === 0
+            ){
+
+                satisfaction =
+                Math.max(
+                    0,
+                    satisfaction-1
+                );
+
+            }
+
+
+            $("time").textContent =
+            timeLeft;
+
+
+            $("satisfaction").textContent =
+            satisfaction;
+
+
+            $("satisfactionBar")
+            .style.width =
+            satisfaction+"%";
+
+
+            $("timeBar")
+            .style.width =
+            (
+                timeLeft /
+                (
+                    60 +
+                    upgrades.time*8 +
+                    Math.min(
+                        level*2,
+                        20
+                    )
+                )
+                *100
+            )+"%";
+
+
+            if(
+                timeLeft <= 0
+            ){
+
+                fail();
+
+            }
+
+        },
+        1000
+    );
+
+}
+
+
+/* =====================================================
+   PUT MEAT
+===================================================== */
+
+function putPatty(){
+
+    if(pattyOn){
+
+        return;
+
+    }
+
+
+    pattyOn = true;
+
+    cook = 0;
+
+
+    $("patty").className =
+    "patty show raw";
+
+
+    $("cookText").textContent =
+    "اللحم نيء. اضغطي طبخ 🔥";
+
+
+    soundMeat();
+
+    soundGrill();
+
+    startCooking();
+
+}
+
+
+/* =====================================================
+   COOK
+===================================================== */
+
+function startCooking(){
+
+    clearInterval(
+        cookTimer
+    );
+
+
+    cooking = true;
+
+
+    cookTimer =
+    setInterval(
+        function(){
+
+            cook +=
+            2 +
+            upgrades.grill*0.7;
+
+
+            $("heat").style.width =
+            Math.min(
+                cook,
+                100
+            )+"%";
+
+
+            if(
+                cook >= 45 &&
+                cook < 82
+            ){
+
+                $("patty").className =
+                "patty show good";
+
+            }
+
+
+            if(
+                cook >= 82
+            ){
+
+                $("patty").className =
+                "patty show burn";
+
+            }
+
+
+            if(
+                cook >= 100
+            ){
+
+                clearInterval(
+                    cookTimer
+                );
+
+
+                cooking = false;
+
+
+                $("cookText").textContent =
+                "احترق! 😭";
+
+            }
+
+        },
+        100
+    );
+
+}
+
+
+/* =====================================================
+   FLIP
+===================================================== */
+
+function flipPatty(){
+
+    if(!pattyOn){
+
+        alert(
+            "حطي اللحم أول!"
+        );
+
+        return;
+
+    }
+
+
+    soundFlip();
+
+
+    if(
+        cook >=45 &&
+        cook <82
+    ){
+
+        $("cookText").textContent =
+        "قلب ممتاز! 🔥";
+
+    }else{
+
+        $("cookText").textContent =
+        "انتظري، لا تستعجلين.";
+
+    }
+
+}
+
+
+/* =====================================================
+   REMOVE
+===================================================== */
+
+function removePatty(){
+
+    if(!pattyOn){
+
+        return;
+
+    }
+
+
+    clearInterval(
+        cookTimer
+    );
+
+
+    pattyOn = false;
+
+
+    $("patty").className =
+    "patty";
+
+
+    $("heat").style.width =
+    "0%";
+
+
+    soundRemove();
+
+
+    if(
+        cook >=45 &&
+        cook <82
+    ){
+
+        $("cookText").textContent =
+        "استواء ممتاز! 🤩";
+
+    }else if(
+        cook <45
+    ){
+
+        $("cookText").textContent =
+        "اللحم نيء! 🥩";
+
+    }else{
+
+        $("cookText").textContent =
+        "اللحم محترق! 🥲";
+
+    }
+
+}
+
+
+/* =====================================================
+   ADD INGREDIENT
+===================================================== */
+
+function add(type){
+
+    if(
+        type === "meat" &&
+        !(
+            cook >=45 &&
+            cook <82
+        )
+    ){
+
+        alert(
+            "اطبخي اللحم إلى الاستواء الأخضر أول 🔥"
+        );
+
+        return;
+
+    }
+
+
+    built.push(type);
+
+
+    soundIngredient();
+
+
+    renderBurger();
+
+}
+
+
+/* =====================================================
+   RENDER BURGER
+===================================================== */
+
+function renderBurger(){
+
+    let burger =
+    $("burger");
+
+
+    burger.innerHTML =
+    "";
+
+
+    const layers =
+    built.filter(
+        function(x){
+
+            return (
+                x !== "fries" &&
+                x !== "drink"
+            );
+
+        }
+    );
+
+
+    layers.forEach(
+        function(x){
+
+            let d =
+            document.createElement(
+                "div"
+            );
+
+
+            d.className =
+            "layer " + x;
+
+
+            d.textContent =
+            E[x];
+
+
+            burger.appendChild(
+                d
+            );
+
+        }
+    );
+
+
+    if(
+        !layers.length
+    ){
+
+        burger.innerHTML =
+        `
+        <span class="small">
+        ضعي الخبز والمكونات هنا 👇
+        </span>
+        `;
+
+    }
+
+
+    $("buildText").textContent =
+    built.length
+    ?
+    built
+    .map(
+        function(x){
+
+            return E[x] +
+            " " +
+            N[x];
+
+        }
+    )
+    .join(" ← ")
+    :
+    "ابدئي بالخبز ثم رتبي المكونات.";
+
+}
+
+
+/* =====================================================
+   CLEAR
+===================================================== */
+
+function clearBurger(){
+
+    built = [];
+
+    renderBurger();
+
+}
+
+
+/* =====================================================
+   SERVE
+===================================================== */
+
+function serve(){
+
+    if(
+        !built.length
+    ){
+
+        alert(
+            "الطلب ما اكتمل 😭"
+        );
+
+        return;
+
+    }
+
+
+    clearInterval(
+        timer
+    );
+
+
+    let missing =
+    order.filter(
+        function(x){
+
+            return !built.includes(x);
+
+        }
+    );
+
+
+    let extra =
+    built.filter(
+        function(x){
+
+            return !order.includes(x);
+
+        }
+    );
+
+
+    let correct =
+    order.length -
+    missing.length;
+
+
+    let accuracy =
+    Math.max(
+        0,
+        Math.round(
+            correct /
+            order.length *
+            100
+        )
+    );
+
+
+    accuracy -=
+    extra.length * 8;
+
+
+    accuracy =
+    Math.max(
+        0,
+        accuracy
+    );
+
+
+    let cookedBonus =
+    (
+        cook >=45 &&
+        cook <82
+    )
+    ?
+    15
+    :
+    0;
+
+
+    let speedBonus =
+    Math.floor(
+        timeLeft/2
+    );
+
+
+    let satBonus =
+    Math.floor(
+        satisfaction/5
+    );
+
+
+    let chefBonus =
+    upgrades.chef*8;
+
+
+    let points =
+    Math.max(
+        0,
+        accuracy +
+        speedBonus +
+        cookedBonus +
+        satBonus +
+        chefBonus
+    );
+
+
+    let perfect =
+    missing.length === 0 &&
+    extra.length === 0 &&
+    accuracy >=95;
+
+
+    if(perfect){
+
+        combo++;
+
+
+        points +=
+        combo*10;
+
+
+        money +=
+        20 +
+        upgrades.chef*5;
+
+
+        if(
+            level <20
+        ){
+
+            level++;
+
+        }
+
+    }else{
+
+        combo = 0;
+
+
+        money +=
+        Math.max(
+            5,
+            Math.floor(
+                points/4
+            )
+        );
+
+    }
+
+
+    score += points;
+
+
+    save();
+
+
+    /* الصوت */
+
+    if(perfect){
+
+        soundPerfect();
+
+    }else if(
+        points >=65
+    ){
+
+        soundSuccess();
+
+    }else{
+
+        soundFail();
+
+    }
+
+
+    /* النجوم */
+
+    let stars;
+
+
+    if(
+        points >=120
+    ){
+
+        stars =
+        "⭐⭐⭐⭐⭐";
+
+    }else if(
+        points >=90
+    ){
+
+        stars =
+        "⭐⭐⭐⭐";
+
+    }else if(
+        points >=65
+    ){
+
+        stars =
+        "⭐⭐⭐";
+
+    }else if(
+        points >=35
+    ){
+
+        stars =
+        "⭐⭐";
+
+    }else{
+
+        stars =
+        "⭐";
+
+    }
+
+
+    $("stars").textContent =
+    stars;
+
+
+    $("resultPoints").textContent =
+    "+" +
+    points +
+    " نقطة";
+
+
+    if(perfect){
+
+        $("resultTitle").textContent =
+        "🔥 طلب مثالي!";
+
+
+        $("resultText").textContent =
+        "الزبون مبسوط جدًا وترك بقشيش! 💰";
+
+
+        $("resultEmoji").textContent =
+        "🤩";
+
+    }else if(
+        points >=65
+    ){
+
+        $("resultTitle").textContent =
+        "😋 طلب جيد";
+
+
+        $("resultText").textContent =
+        "الزبون أعجبه البرجر!";
+
+
+        $("resultEmoji").textContent =
+        "😋";
+
+    }else{
+
+        $("resultTitle").textContent =
+        "🥲 نحتاج تدريب أكثر";
+
+
+        if(
+            missing.length
+        ){
+
+            $("resultText").textContent =
+            "ناقص: " +
+            missing
+            .map(
+                function(x){
+
+                    return N[x];
+
+                }
+            )
+            .join("، ");
+
+        }else{
+
+            $("resultText").textContent =
+            "فيه مكونات زيادة أو ترتيب غير صحيح.";
+
+        }
+
+
+        $("resultEmoji").textContent =
+        "😅";
+
+    }
+
+
+    show("result");
+
+}
+
+
+/* =====================================================
+   FAIL
+===================================================== */
+
+function fail(){
+
+    clearInterval(
+        timer
+    );
+
+
+    combo = 0;
+
+
+    soundFail();
+
+
+    $("stars").textContent =
+    "💔";
+
+
+    $("resultTitle").textContent =
+    "الزبون انتظر كثير 😭";
+
+
+    $("resultPoints").textContent =
+    "+0 نقطة";
+
+
+    $("resultText").textContent =
+    "حاولي تسرعين في الطلب الجاي!";
+
+
+    $("resultEmoji").textContent =
+    "😡";
+
+
+    show("result");
+
+}
+
+
+/* =====================================================
+   NEXT ORDER
+===================================================== */
+
+function nextOrder(){
+
+    show("game");
+
+    makeOrder();
+
+}
+
+
+/* =====================================================
+   BUY
+===================================================== */
+
+function buy(
+    type,
+    cost
+){
+
+    if(
+        money < cost
+    ){
+
+        alert(
+            "ما عندك فلوس كفاية 💰"
+        );
+
+        return;
+
+    }
+
+
+    money -= cost;
+
+
+    upgrades[type]++;
+
+
+    soundBuy();
+
+
+    save();
+
+
+    alert(
+        "تم التطوير! 🔥"
+    );
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+$("soundBtn").textContent =
+soundEnabled
+?
+"🔊"
+:
+"🔇";
+
+
+$("volume").value =
+masterVolume;
+
+
+updateStats();
+
+</script>
+
+</body>
+</html>
